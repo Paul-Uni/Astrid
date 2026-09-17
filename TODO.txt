@@ -1,0 +1,56 @@
+Bei dir würde ich deshalb langfristig nicht MessageStack abschaffen
+
+Ich würde ihn weiterentwickeln.
+
+Momentan:
+
+MessageStack
+    └── messages[]
+
+Später könnte daraus beispielsweise werden:
+
+Conversation
+│
+├── messages
+│
+├── summary
+│
+├── memory
+│
+├── tools
+│
+├── context_manager
+│
+└── model
+
+Und dann:
+
+response = assistant.respond(
+    user_message
+)
+
+anstatt überall direkt:
+
+ollama.chat(...)
+
+zu verwenden.
+
+Dann kümmert sich assistant.respond() intern um:
+
+User message
+     ↓
+Memory retrieval
+     ↓
+Relevant history
+     ↓
+Summary
+     ↓
+Tool state
+     ↓
+Context construction
+     ↓
+ollama.chat()
+     ↓
+Streaming response
+     ↓
+Save response
